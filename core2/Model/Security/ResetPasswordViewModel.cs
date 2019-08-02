@@ -15,7 +15,7 @@ namespace core2.Model.Security
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        public string Passwors { get; set; }
+        public string Password { get; set; }
         [Required]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
