@@ -110,7 +110,7 @@ namespace core2.Controllers
             return RedirectToAction("Index", "Students");
         }
 
-        public IActionResult ForgotrPassword()
+        public IActionResult ForgotPassword()
         {
             return View();
         }
@@ -157,7 +157,7 @@ namespace core2.Controllers
             if (user == null)
                 throw new ApplicationException("User not found");
 
-            var result = await _userManager.ResetPasswordAsync(user, resetPasswordEmailModel.Code, resetPasswordEmailModel.Passwors);
+            var result = await _userManager.ResetPasswordAsync(user, resetPasswordEmailModel.Code, resetPasswordEmailModel.Password);
 
             if (result.Succeeded)
                 return RedirectToAction("ResetPasswordConfirm");
