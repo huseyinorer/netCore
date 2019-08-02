@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using core2.EntitiesF;
 using core2.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace core2.Controllers
 {
@@ -20,6 +21,7 @@ namespace core2.Controllers
         }
 
         // GET: Students
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Students.ToListAsync());
@@ -44,6 +46,7 @@ namespace core2.Controllers
         }
 
         // GET: Students/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
