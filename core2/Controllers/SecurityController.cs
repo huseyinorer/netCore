@@ -110,7 +110,7 @@ namespace core2.Controllers
             return RedirectToAction("Index", "Students");
         }
 
-        public IActionResult ForgotrPassword()
+        public IActionResult ForgotPassword()
         {
             return View();
         }
