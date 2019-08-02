@@ -1,0 +1,25 @@
+﻿@model core2.Model.Security.RegisterViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+</head>
+<body>
+    <h3>Register</h3>
+    <div asp-validation-summary="All"></div>
+    <form asp-controller="Security" asp-action="Register" method="post">
+        <input type="text" asp-for="UserName" placeholder="User Name" /><br />
+        <input type="password" asp-for="Password" placeholder="Password" /><br />
+        <input type="password" asp-for="ConfirPasswors" placeholder="Confir Passwors" /><br />
+        <input type="text" asp-for="Email" placeholder="Email" /><br />
+        <input type="text" asp-for="Age" placeholder="Age" /><br />
+        <input type="submit" value="Register" />
+    </form>
+</body>
+</html>
