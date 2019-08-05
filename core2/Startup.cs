@@ -21,7 +21,7 @@ namespace core2
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        //TEST
+        //gitte yapılan değişiklik bitbuketa atılıyor mu bakalım
         IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
