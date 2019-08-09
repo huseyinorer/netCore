@@ -26,4 +26,8 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\core2\core2.csproj" />
+  </ItemGroup>
+
 </Project>
