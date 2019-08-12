@@ -14,9 +14,10 @@ namespace MainProject.Controllers
         public UserManager<AppIdentityUser> _userManager { get; set; }
         public SignInManager<AppIdentityUser> _signInManager { get; set; }
 
-        public HomeController(UserManager<AppIdentityUser> userManager)
+        public HomeController(UserManager<AppIdentityUser> userManager,SignInManager<AppIdentityUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         public IActionResult Index()
         {
@@ -89,7 +90,7 @@ namespace MainProject.Controllers
             {
                 return View(loginViewModel);
             }
-            var user = await _userManager.FindByNameAsync(loginViewModel.UserName);
+            var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
             if (user != null)
             {
                 if (!await _userManager.IsEmailConfirmedAsync(user))
@@ -97,13 +98,15 @@ namespace MainProject.Controllers
                     ModelState.AddModelError(string.Empty, "Confirm your email");
                     return View(loginViewModel);
                 }
+
+                await _signInManager.SignOutAsync();
+                var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
+                if (result.Succeeded)
+                    return RedirectToAction("Index", "Member");
             }
-
-            var result = await _signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, false, false);
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
-
-            ModelState.AddModelError(string.Empty, "Login failed");
+           
+            ModelState.AddModelError(string.Empty, "Geçersiz email adresi veya şifre.");
+           
             return View(loginViewModel);
         }
 

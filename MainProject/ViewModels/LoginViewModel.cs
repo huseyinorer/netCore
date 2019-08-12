@@ -8,9 +8,13 @@ namespace MainProject.ViewModels
 {
     public class LoginViewModel//ders 63
     {
-        [Required]
-        public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Email Adresi Gereklidir")]
+        [Display(Name ="Email Adresiniz")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+        [Required(ErrorMessage = "Şifre Gereklidir")]
+        [Display(Name = "Şifre")]
+        [DataType(DataType.Password)]        
         public string Password { get; set; }
     }
 }
