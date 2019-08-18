@@ -77,8 +77,9 @@ namespace MainProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult LogIn()
+        public IActionResult LogIn(string ReturnUrl)
         {
+            TempData["ReturnUrl"] = ReturnUrl;
             return View();
         }
 
@@ -93,6 +94,11 @@ namespace MainProject.Controllers
             var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
             if (user != null)
             {
+                if(await _userManager.IsLockedOutAsync(user))                {
+
+                    ModelState.AddModelError(string.Empty, "Hesabınız kısa süreliğine kilitlenmiştir. Lütfen biraz sonra tekrar deneyiniz.");
+                    return View(loginViewModel);
+                }
                 if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
                     ModelState.AddModelError(string.Empty, "Confirm your email");
@@ -102,10 +108,32 @@ namespace MainProject.Controllers
                 await _signInManager.SignOutAsync();
                 var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                 if (result.Succeeded)
+                {
+                    await _userManager.ResetAccessFailedCountAsync(user);
+
+                    if (TempData["ReturnUrl"] != null)
+                        return Redirect(TempData["ReturnUrl"].ToString());
                     return RedirectToAction("Index", "Member");
+                }else
+                {
+
+                    await _userManager.AccessFailedAsync(user);
+                    var failed = await _userManager.GetAccessFailedCountAsync(user);
+                    ModelState.AddModelError(string.Empty, $"{failed} kez başarısız giriş.");
+
+                    if (failed == 3)
+                    {
+                        await _userManager.SetLockoutEndDateAsync(user, new DateTimeOffset(DateTime.Now.AddMinutes(3)));
+                        ModelState.AddModelError(string.Empty, "Hesabınız 3 başarısız girişten dolayı 3 dakika kilitlenmiştir.");
+                    }else
+                    {
+                        ModelState.AddModelError(string.Empty, "Email adresi veya şifre yanlış.");
+
+                    }
+                }
             }
-           
-            ModelState.AddModelError(string.Empty, "Geçersiz email adresi veya şifre.");
+           else
+            ModelState.AddModelError(string.Empty, "Email adresi ile kayıtlı kullanıcı bulunamamıştır.");
            
             return View(loginViewModel);
         }
@@ -142,7 +170,7 @@ namespace MainProject.Controllers
                 return View();
 
             var confirmationCode = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var callBackUrl = Url.Action("ResetPassword", "Security", new { userId = user.Id, code = confirmationCode });
+            var callBackUrl = Url.Action("ResetPassword", "Home", new { userId = user.Id, code = confirmationCode });
 
             //send callback url with email
 

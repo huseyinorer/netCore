@@ -26,7 +26,7 @@ namespace MainProject
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            
             services.AddEntityFrameworkNpgsql().AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
             services.AddIdentity<AppIdentityUser, AppIdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
@@ -36,7 +36,7 @@ namespace MainProject
                 .AddErrorDescriber<CustomİdentityErrorDescriber>();
 
             services.Configure<IdentityOptions>(options => { //ders 60
-                options.Password.RequireDigit = false;
+                options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireUppercase = false;
@@ -73,6 +73,7 @@ namespace MainProject
 
                 }; ;
             });
+            services.AddMvc();
         }
        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,9 +83,11 @@ namespace MainProject
             app.UseStatusCodePages();
             app.UseStaticFiles();
 
-            app.UseMvcWithDefaultRoute();//default route controller>action>view
+
             app.UseSession();
             app.UseAuthentication();
+            app.UseMvcWithDefaultRoute();//default route controller>action>view
+            
         }
     }
 }
