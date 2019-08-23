@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
+using MainProject.Helper;
 using MainProject.Identity;
 using MainProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +23,9 @@ namespace MainProject.Controllers
         }
         public IActionResult Index()
         {
+            
+
+
             return View();
         }
 
@@ -51,6 +56,7 @@ namespace MainProject.Controllers
                 var callBackUrl = Url.Action("ConfirmEmail", "Home", new { userId = user.Id, code = confirmationCode.Result });
 
                 //send email
+                SendEmail.SendCallBackURL(user.Email, callBackUrl);
 
                 return RedirectToAction("Login", "Home");
 
@@ -173,6 +179,8 @@ namespace MainProject.Controllers
             var callBackUrl = Url.Action("ResetPassword", "Home", new { userId = user.Id, code = confirmationCode });
 
             //send callback url with email
+            SendEmail.SendCallBackURL(email, callBackUrl);
+            //
 
             return RedirectToAction("ForgotPasswordEmailSend");
         }
