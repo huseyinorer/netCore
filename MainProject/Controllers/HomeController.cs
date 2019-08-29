@@ -112,7 +112,7 @@ namespace MainProject.Controllers
                 }
 
                 await _signInManager.SignOutAsync();
-                var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, loginViewModel.RememberMe, false);
                 if (result.Succeeded)
                 {
                     await _userManager.ResetAccessFailedCountAsync(user);
@@ -195,6 +195,8 @@ namespace MainProject.Controllers
             if (userId == null || code == null)
                 throw new ApplicationException("Code must be supplied for password reset");
 
+            TempData["userId"] = userId;
+            TempData["code"] = code;
             var model = new ResetPasswordViewModel { Code = code };
             return View(model);
         }
@@ -212,14 +214,17 @@ namespace MainProject.Controllers
             var result = await _userManager.ResetPasswordAsync(user, resetPasswordEmailModel.Code, resetPasswordEmailModel.Password);
 
             if (result.Succeeded)
+            {
+                await _userManager.UpdateSecurityStampAsync(user);
                 return RedirectToAction("ResetPasswordConfirm");
-
+            }
             return View();
         }
 
         public IActionResult ResetPasswordConfirm()
-        {
+        {           
             return View();
         }
+
     }
 }

@@ -17,8 +17,12 @@
             <input type="password" class="form-control" asp-for="Password" />
         </div>
         <div class="form-group">
+            <input type="checkbox" asp-for="RememberMe" /> Beni Hatırla
+        </div>g
+        <div class="form-group">
             <input type="submit" value="Giriş" class="btn btn-primary" />
         </div>
+
     </form>
     <a class="btn btn-link" asp-action="ForgotPassword">Şifremi Unuttum</a>
 </div>

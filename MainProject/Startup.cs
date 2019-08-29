@@ -69,9 +69,8 @@ namespace MainProject
                     SameSite = SameSiteMode.Lax,//uygulma dışından istekte bulunma
                     SecurePolicy = CookieSecurePolicy.SameAsRequest,//http https ayarları
                     Expiration=System.TimeSpan.FromDays(30)
-
-
-                }; ;
+                    
+                };
             });
             services.AddMvc();
         }
