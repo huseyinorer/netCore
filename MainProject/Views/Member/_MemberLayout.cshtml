@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand"asp-action="Index" asp-controller="Home">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-link">
+                        <a class="nav-link" asp-action="Index" asp-controller="Member">Üye Ana Sayfa <span class="sr-only">(current)</span></a>
+                    </li>
+                   
+                </ul>
+                
+                    <ul class="navbar-nav">
+                        <li class="nav-link">
+                            <a class="nav-link" asp-action="Logout" asp-controller="Member">Çıkış <span class="sr-only">(current)</span></a>
+                        </li>
+
+                    </ul>
+              
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                @RenderBody()
+            </div>
+            <div class="col-md-4">
+                <h3>Menü</h3>
+                <a class="btn btn-info btn-block" asp-action="ChangePassword" asp-controller="Member">Şifre Değiştir</a>
+                <a class="btn btn-info btn-block" asp-action="EditUser" asp-controller="Member">Kullanıcı Bilgileri </a>
+                <a class="btn btn-warning btn-block" asp-action="Logout" asp-controller="Member">Çıkış</a>
+            </div>
+
+        </div>
+        
+    </div>
+</body>
+</html>
