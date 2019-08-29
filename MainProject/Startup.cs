@@ -53,7 +53,7 @@ namespace MainProject
                 
 
             });
-            //ttt
+            //tttt
             services.AddSession();
             services.AddDistributedMemoryCache();//session nerede tutulacak : uygulmaa sunucusu hafızası
             services.ConfigureApplicationCookie(options => {//ders 61
