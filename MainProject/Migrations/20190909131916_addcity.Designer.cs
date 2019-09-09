@@ -3,15 +3,17 @@ using System;
 using MainProject.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MainProject.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190909131916_addcity")]
+    partial class addcity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +51,6 @@ namespace MainProject.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<DateTime>("BirthDate");
-
                     b.Property<string>("City");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -60,8 +60,6 @@ namespace MainProject.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<int>("Gender");
 
                     b.Property<bool>("LockoutEnabled");
 

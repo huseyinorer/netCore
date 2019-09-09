@@ -120,5 +120,12 @@ namespace MainProject.Controllers
 
             return View(registerUserViewModel);
         }
+
+        public void Logout()
+        {
+            _signInManager.SignOutAsync();
+            
+
+        }
     }
 }

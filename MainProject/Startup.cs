@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MainProject.CustomValidations;
 using MainProject.Identity;
+using MainProject.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace MainProject
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddEntityFrameworkNpgsql().AddDbContext<ProjectDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
             services.AddEntityFrameworkNpgsql().AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
             services.AddIdentity<AppIdentityUser, AppIdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
@@ -58,7 +59,7 @@ namespace MainProject
             services.AddDistributedMemoryCache();//session nerede tutulacak : uygulmaa sunucusu hafızası
             services.ConfigureApplicationCookie(options => {//ders 61
                 options.LoginPath = "/Home/LogIn";
-                options.LogoutPath = "/Home/LogOut";
+                options.LogoutPath = "/Member/Logout";
                 options.AccessDeniedPath = "/Home/AccessDenied";
                 options.SlidingExpiration = true;
                 options.Cookie = new CookieBuilder
