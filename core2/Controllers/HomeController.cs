@@ -124,11 +124,6 @@ namespace core2.Controllers
 
             return View();
         }
-
-        public string RouteData(int id)
-        {
-            return id.ToString();
-
-        }
+       
     }
 }

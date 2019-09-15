@@ -11,16 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MainProject.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public UserManager<AppIdentityUser> _userManager { get; set; }
-        public SignInManager<AppIdentityUser> _signInManager { get; set; }
-
-        public HomeController(UserManager<AppIdentityUser> userManager,SignInManager<AppIdentityUser> signInManager)
+        public HomeController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager) : base(userManager, signInManager)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
         }
+
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
@@ -63,10 +59,7 @@ namespace MainProject.Controllers
             }
             else
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                AddModelError(result);
 
             }
 
