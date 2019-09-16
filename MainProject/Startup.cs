@@ -27,8 +27,8 @@ namespace MainProject
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkNpgsql().AddDbContext<ProjectDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
             services.AddEntityFrameworkNpgsql().AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
+            services.AddEntityFrameworkNpgsql().AddDbContext<ProjectDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
             services.AddIdentity<AppIdentityUser, AppIdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders()                

@@ -4,14 +4,15 @@ namespace MainProject.Models
 {
     public class ProjectDbContext : DbContext
     {
-        public ProjectDbContext()
+        public ProjectDbContext(DbContextOptions<ProjectDbContext> options)  : base(options)
         {
         }
-
-        public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options)
-        {
-        }
-
         public DbSet<Settings> Settings { get; set; }
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseNpgsql("Host=raja.db.elephantsql.com;port=5432;Database=rouiqpyy;Username=rouiqpyy;Password=mqlhwqWK0rKJV0Mw14DyuPyCq5DQp7oq");
+        //}
     }
 }
