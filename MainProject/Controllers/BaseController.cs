@@ -12,12 +12,14 @@ namespace MainProject.Controllers
     {
         protected UserManager<AppIdentityUser> _userManager { get; set; }
         protected SignInManager<AppIdentityUser> _signInManager { get; set; }
+        protected RoleManager<AppIdentityRole> _roleManager { get; set; }
 
         protected AppIdentityUser CurrentUser => _userManager.FindByNameAsync(User.Identity.Name).Result;
-        public BaseController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager)
+        public BaseController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, RoleManager<AppIdentityRole> roleManager=null)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public void AddModelError(IdentityResult result)

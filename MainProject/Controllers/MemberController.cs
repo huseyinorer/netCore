@@ -123,5 +123,9 @@ namespace MainProject.Controllers
             
 
         }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
