@@ -140,7 +140,7 @@ namespace MainProject.Controllers
                 {
                     if (item.Exist)
                     {
-                        await _userManager.AddToRoleAsync(user,item.RoleName);
+                        await _userManager.AddToRoleAsync(user, item.RoleName);
                     }
                     else
                     {
