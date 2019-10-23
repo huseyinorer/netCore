@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using MainProject.CustomValidations;
 using MainProject.Identity;
 using MainProject.Models;
+using MainProject.Requirement;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,8 +30,34 @@ namespace MainProject
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //claim ile filtreleme
+            services.AddTransient<IAuthorizationHandler, ExpireDateExchangeHandler>();
+            services.AddAuthorization(opts =>
+            {
+
+                opts.AddPolicy("KayseriPolicy", policy =>
+                 {
+                     policy.RequireClaim("city", "kayseri");
+                     policy.RequireClaim("year", "True");
+                 });
+
+                opts.AddPolicy("ExchangePolicy", policy =>
+                {
+                    policy.AddRequirements(new ExpireDateExchangeRequirement());
+                });
+
+            });
+
             services.AddEntityFrameworkNpgsql().AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
             services.AddEntityFrameworkNpgsql().AddDbContext<ProjectDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
+
+            //facebook ile authentication.
+            services.AddAuthentication().AddFacebook(opts => {
+
+                opts.AppId = _configuration["Authentication:Facebook:AppId"];
+                opts.AppSecret = _configuration["Authentication:Facebook:AppSecret"];
+
+            });
             services.AddIdentity<AppIdentityUser, AppIdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders()                
@@ -48,7 +77,7 @@ namespace MainProject
                 options.Lockout.AllowedForNewUsers = true;
 
                 options.User.RequireUniqueEmail = true;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
+                options.User.AllowedUserNameCharacters = "abcçdefgğhıijklmnoöpqrstuüvwxyzABCÇDEFGĞHIİJKLMNOÖPQRSTUÜVWXYZ0123456789-._";
                 options.SignIn.RequireConfirmedEmail = true;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
                 
@@ -60,7 +89,7 @@ namespace MainProject
             services.ConfigureApplicationCookie(options => {//ders 61
                 options.LoginPath = "/Home/LogIn";
                 options.LogoutPath = "/Member/Logout";
-                options.AccessDeniedPath = "/Home/AccessDenied";
+                options.AccessDeniedPath = "/Member/AccessDenied";
                 options.SlidingExpiration = true;
                 options.Cookie = new CookieBuilder
                 {
@@ -73,6 +102,7 @@ namespace MainProject
                     
                 };
             });
+            services.AddScoped<IClaimsTransformation, ClaimProvider.ClaimProvider>();
             services.AddMvc();
         }
        

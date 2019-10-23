@@ -27,7 +27,7 @@ namespace MainProject.ViewModels
         public string City { get; set; }
         [Display(Name = "Doğum Tarihi")]
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         [Display(Name = "Cinsiyet")]
         public Gender Gender { get; set; }
 

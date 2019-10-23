@@ -1,6 +1,7 @@
 ﻿using MainProject.Identity;
 using MainProject.ViewModels;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MainProject.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminController : BaseController
     {
         public AdminController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager) : base(userManager, null, roleManager)
@@ -149,6 +151,11 @@ namespace MainProject.Controllers
                 }
             }
             return RedirectToAction("Users");
+        }
+
+        public IActionResult Claims()
+        {
+            return View(User.Claims.ToList());
         }
     }
 }

@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using MainProject.Helper;
+﻿using MainProject.Helper;
 using MainProject.Identity;
+using MainProject.Models;
 using MainProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MainProject.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager) : base(userManager, signInManager)
+        public HomeController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, ProjectDbContext dbContext) : base(userManager, signInManager, null, dbContext)
         {
         }
 
@@ -38,33 +37,33 @@ namespace MainProject.Controllers
                 return View(registerViewModel);
             }
 
-            var user = new AppIdentityUser{
-                UserName= registerViewModel.UserName,
-                Email=registerViewModel.Email,
-                PhoneNumber=registerViewModel.PhoneNumber,                
+            var user = new AppIdentityUser
+            {
+                UserName = registerViewModel.UserName,
+                Email = registerViewModel.Email,
+                PhoneNumber = registerViewModel.PhoneNumber,
             };
 
             var result = await _userManager.CreateAsync(user, registerViewModel.Password);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 var confirmationCode = _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callBackUrl = Url.Action("ConfirmEmail", "Home", new { userId = user.Id, code = confirmationCode.Result });
 
                 //send email
-                SendEmail.SendCallBackURL(user.Email, callBackUrl);
+                SendEmail.SendCallBackURL(user.Email, callBackUrl, _DbContext);
 
                 return RedirectToAction("Login", "Home");
-
             }
             else
             {
                 AddModelError(result);
-
             }
 
             return View(registerViewModel);
         }
+
         public IActionResult AccessDenied()//ders 65
         {
             return View();
@@ -82,7 +81,6 @@ namespace MainProject.Controllers
             return View();
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)//ders 64
         {
@@ -93,8 +91,8 @@ namespace MainProject.Controllers
             var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
             if (user != null)
             {
-                if(await _userManager.IsLockedOutAsync(user))                {
-
+                if (await _userManager.IsLockedOutAsync(user))
+                {
                     ModelState.AddModelError(string.Empty, "Hesabınız kısa süreliğine kilitlenmiştir. Lütfen biraz sonra tekrar deneyiniz.");
                     return View(loginViewModel);
                 }
@@ -113,9 +111,9 @@ namespace MainProject.Controllers
                     if (TempData["ReturnUrl"] != null)
                         return Redirect(TempData["ReturnUrl"].ToString());
                     return RedirectToAction("Index", "Member");
-                }else
+                }
+                else
                 {
-
                     await _userManager.AccessFailedAsync(user);
                     var failed = await _userManager.GetAccessFailedCountAsync(user);
                     ModelState.AddModelError(string.Empty, $"{failed} kez başarısız giriş.");
@@ -124,16 +122,16 @@ namespace MainProject.Controllers
                     {
                         await _userManager.SetLockoutEndDateAsync(user, new DateTimeOffset(DateTime.Now.AddMinutes(3)));
                         ModelState.AddModelError(string.Empty, "Hesabınız 3 başarısız girişten dolayı 3 dakika kilitlenmiştir.");
-                    }else
+                    }
+                    else
                     {
                         ModelState.AddModelError(string.Empty, "Email adresi veya şifre yanlış.");
-
                     }
                 }
             }
-           else
-            ModelState.AddModelError(string.Empty, "Email adresi ile kayıtlı kullanıcı bulunamamıştır.");
-           
+            else
+                ModelState.AddModelError(string.Empty, "Email adresi ile kayıtlı kullanıcı bulunamamıştır.");
+
             return View(loginViewModel);
         }
 
@@ -172,7 +170,7 @@ namespace MainProject.Controllers
             var callBackUrl = Url.Action("ResetPassword", "Home", new { userId = user.Id, code = confirmationCode });
 
             //send callback url with email
-            SendEmail.SendCallBackURL(email, callBackUrl);
+            SendEmail.SendCallBackURL(email, callBackUrl, _DbContext);
             //
 
             return RedirectToAction("ForgotPasswordEmailSend");
@@ -215,9 +213,72 @@ namespace MainProject.Controllers
         }
 
         public IActionResult ResetPasswordConfirm()
-        {           
+        {
             return View();
         }
 
+        public IActionResult FacebookLogin(string ReturnUrl)
+        {
+            string RedirectUrl = Url.Action("ExternalResponse", "Home", new { ReturnUrl });
+            var property = _signInManager.ConfigureExternalAuthenticationProperties("Facebook", RedirectUrl);
+
+            return new ChallengeResult("Facebook", property);
+        }
+
+        public async Task<IActionResult> ExternalResponse(string ReturnUrl = "/")
+        {
+            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                
+                return RedirectToAction("LogIn");
+            }
+            else
+            {
+                var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true);
+                var user= await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
+                if (result.Succeeded || user!=null)
+                {
+                    await _signInManager.SignInAsync(user, true);
+                    return Redirect(ReturnUrl);
+                }
+                else
+                {
+                    var userName = info.Principal.HasClaim(w => w.Type == ClaimTypes.Name)
+                        ? info.Principal.FindFirst(ClaimTypes.Name).Value.Replace(' ', '-').ToLower() + info.Principal.FindFirst(ClaimTypes.NameIdentifier).Value.Substring(0, 5).ToString()
+                        : info.Principal.FindFirst(ClaimTypes.Email).Value;
+
+                    var newUser = new AppIdentityUser
+                    {
+                        Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                        Id = info.Principal.FindFirst(ClaimTypes.NameIdentifier).Value,
+                        UserName = userName
+                    };
+
+                    var CreateResult = await _userManager.CreateAsync(newUser);
+                    if (CreateResult.Succeeded)
+                    {
+                        var loginResult = await _userManager.AddLoginAsync(newUser, info);
+
+                        if (loginResult.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(newUser, true);
+                            return Redirect(ReturnUrl);
+                        }
+                        else
+                        {
+                            AddModelError(loginResult);
+                        }
+                    }
+                    else
+                    {
+                        AddModelError(CreateResult);
+                    }
+                }
+            }
+
+            return RedirectToAction("Error");
+        }
     }
 }
