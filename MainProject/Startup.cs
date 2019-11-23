@@ -52,10 +52,15 @@ namespace MainProject
             services.AddEntityFrameworkNpgsql().AddDbContext<ProjectDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62
 
             //facebook ile authentication.
-            services.AddAuthentication().AddFacebook(opts => {
+            services.AddAuthentication()
+                .AddFacebook(opts => {
 
                 opts.AppId = _configuration["Authentication:Facebook:AppId"];
                 opts.AppSecret = _configuration["Authentication:Facebook:AppSecret"];
+
+            }).AddGoogle(opts=> {
+                opts.ClientId = _configuration["Authentication:Google:ClientID"];
+                opts.ClientSecret = _configuration["Authentication:Google:ClientSecret"];
 
             });
             services.AddIdentity<AppIdentityUser, AppIdentityRole>()

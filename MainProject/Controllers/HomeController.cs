@@ -5,6 +5,8 @@ using MainProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -225,22 +227,28 @@ namespace MainProject.Controllers
             return new ChallengeResult("Facebook", property);
         }
 
+        public IActionResult GoogleLogin(string ReturnUrl)
+        {
+            string RedirectUrl = Url.Action("ExternalResponse", "Home", new { ReturnUrl });
+            var property = _signInManager.ConfigureExternalAuthenticationProperties("Google", RedirectUrl);
+
+            return new ChallengeResult("Google", property);
+        }
+
         public async Task<IActionResult> ExternalResponse(string ReturnUrl = "/")
         {
-            ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
+            var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                
                 return RedirectToAction("LogIn");
             }
             else
             {
                 var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true);
-                var user= await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                // var user= await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
-                if (result.Succeeded || user!=null)
+                if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, true);
                     return Redirect(ReturnUrl);
                 }
                 else
@@ -253,7 +261,8 @@ namespace MainProject.Controllers
                     {
                         Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
                         Id = info.Principal.FindFirst(ClaimTypes.NameIdentifier).Value,
-                        UserName = userName
+                        UserName = userName,
+                        EmailConfirmed = true
                     };
 
                     var CreateResult = await _userManager.CreateAsync(newUser);
@@ -263,7 +272,7 @@ namespace MainProject.Controllers
 
                         if (loginResult.Succeeded)
                         {
-                            await _signInManager.SignInAsync(newUser, true);
+                            await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true);
                             return Redirect(ReturnUrl);
                         }
                         else
@@ -277,8 +286,18 @@ namespace MainProject.Controllers
                     }
                 }
             }
+            List<string> errors = ModelState.Values.SelectMany(x => x.Errors).Select(y => y.ErrorMessage).ToList();
+            return View("Error", errors);
+        }
 
-            return RedirectToAction("Error");
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        public IActionResult Policy()
+        {
+            return View();
         }
     }
 }
