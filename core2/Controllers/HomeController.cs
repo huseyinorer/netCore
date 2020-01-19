@@ -1,12 +1,11 @@
-﻿using System;
+﻿using core2.Entities;
+using core2.Filters;
+using core2.Model;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using core2.Entities;
-using core2.Filters;
-using core2.Model;
 
 namespace core2.Controllers
 {
@@ -18,16 +17,17 @@ namespace core2.Controllers
             _school = school;
 
         }
+        [Route("{id}")]
         public string Index()
         {
             //var x = _school.Database.ProviderName;
             //_school.persons.Add(new persons { personid = 3, lastname = "husam2233", firstname = "o223rer", address = "ev232", city = "kayser2233i" });
             //_school .SaveChanges();
 
-           // var kayıt = _school.persons.Where(p => p.personid == 3).FirstOrDefault().lastname.ToString();
+            // var kayıt = _school.persons.Where(p => p.personid == 3).FirstOrDefault().lastname.ToString();
             return "Hello mı ??";
         }
-        [HandleException(ViewName ="DivideByZeroError",exceptionType =typeof(DivideByZeroException))]
+        [HandleException(ViewName = "DivideByZeroError", exceptionType = typeof(DivideByZeroException))]
         [HandleException(ViewName = "Error", exceptionType = typeof(SecurityException))]
         public ViewResult Index2()
         {
@@ -98,7 +98,7 @@ namespace core2.Controllers
             };
 
             return View(model);
-          
+
         }
 
         public JsonResult Index10(string key)
@@ -109,7 +109,7 @@ namespace core2.Controllers
                 new Employee{Id=2,FirstName="husam2",LastName="orr2",CityId=6},
                 new Employee{Id=3,FirstName="husam3",LastName="orr3",CityId=23},
             };
-            if(string.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(key))
             {
                 return Json(employees);
 
@@ -125,10 +125,5 @@ namespace core2.Controllers
             return View();
         }
 
-        public string RouteData(int id)
-        {
-            return id.ToString();
-
-        }
     }
 }

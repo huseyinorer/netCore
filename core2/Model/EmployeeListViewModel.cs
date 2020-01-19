@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using core2.Entities;
+﻿using core2.Entities;
+using System.Collections.Generic;
 
 namespace core2.Model
 {

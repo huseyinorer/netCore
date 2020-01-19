@@ -1,15 +1,13 @@
-﻿using System;
+﻿using core2.Entities;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using core2.Entities;
 
 namespace core2.TagHelpers
 {
     [HtmlTargetElement("employee-list")]
-    public class EmployeeListTaghelper:TagHelper
+    public class EmployeeListTaghelper : TagHelper
     {
         private List<Employee> _employees;
         public EmployeeListTaghelper()
@@ -24,11 +22,11 @@ namespace core2.TagHelpers
 
         }
 
-        private const string ListCountAttributeName="count";
+        private const string ListCountAttributeName = "count";
 
         [HtmlAttributeName(ListCountAttributeName)]
         public int ListCount { get; set; }
-        
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
@@ -37,7 +35,7 @@ namespace core2.TagHelpers
 
             foreach (var employee in query)
             {
-                strbuilding.AppendFormat("<h2><a href='/employee/detail/{0}'>{1}</a></h2>",employee.Id,employee.FirstName);
+                strbuilding.AppendFormat("<h2><a href='/employee/detail/{0}'>{1}</a></h2>", employee.Id, employee.FirstName);
             }
             output.Content.SetHtmlContent(strbuilding.ToString());
             base.Process(context, output);

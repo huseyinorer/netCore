@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using core2.Entities;
+using core2.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using core2.Entities;
-using core2.Model;
 
 namespace core2.Controllers
 {
@@ -58,7 +55,7 @@ namespace core2.Controllers
         {
             if (ModelState.IsValid)
             {
-                persons.personid =persons.personid!=0? _context.persons.Max(p=>p.personid) + 1:0;
+                persons.personid = persons.personid != 0 ? _context.persons.Max(p => p.personid) + 1 : 0;
                 _context.Add(persons);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
