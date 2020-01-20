@@ -39,6 +39,13 @@ namespace MainProject.Controllers
                 return View(registerViewModel);
             }
 
+            if(_userManager.Users.Any(w=>w.PhoneNumber==registerViewModel.PhoneNumber))
+            {
+                ModelState.AddModelError("","Bu telefon numarası kayıtlıdır");
+                return View(registerViewModel);
+
+            }
+
             var user = new AppIdentityUser
             {
                 UserName = registerViewModel.UserName,

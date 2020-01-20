@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -87,6 +88,17 @@ namespace MainProject.Controllers
 
             if (ModelState.IsValid)
             {
+                string phone = _userManager.GetPhoneNumberAsync(CurrentUser).Result;
+                if(phone!=registerUserViewModel.PhoneNumber)
+                {
+                    if(_userManager.Users.Any(w=>w.PhoneNumber==registerUserViewModel.PhoneNumber))
+                    {
+                        ModelState.AddModelError("", "Bu telefon numarası başka üye tarafından kullanılmaktadır.");
+                        return View(registerUserViewModel);
+                    }
+
+                }
+
                 var user = CurrentUser;
                 user.UserName = registerUserViewModel.UserName;
                 user.Email = registerUserViewModel.Email;
