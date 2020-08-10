@@ -1,10 +1,14 @@
 ﻿using MainProject.Identity;
+using MainProject.Models;
 using MainProject.ViewModels;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,7 +17,7 @@ namespace MainProject.Controllers
     [Authorize(Roles ="Admin")]
     public class AdminController : BaseController
     {
-        public AdminController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager) : base(userManager, null, roleManager)
+        public AdminController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager,ProjectDbContext dbcontext) : base(userManager, null, roleManager,dbcontext)
         {
         }
 
@@ -153,6 +157,35 @@ namespace MainProject.Controllers
             return RedirectToAction("Users");
         }
 
+        public IActionResult HomePagePhotos()
+        {
+            var homesliderphotos = _DbContext.HomeSliderPhotos.ToList();
+            return View(homesliderphotos);
+        }
+
+        public IActionResult HomeSliderPhotoAdd()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> HomeSliderPhotoAdd(HomeSliderPhotoViewModel model,IFormFile Photo)
+        {
+            if(Photo.Length>0)
+            {
+                using (var stream=new MemoryStream())
+                {
+                    await Photo.CopyToAsync(stream);
+                    model.Photo = stream.ToArray();
+                }
+
+                var _photoid = _DbContext.HomeSliderPhotos.Max(w=>w.PhotoId) + 1;
+                _DbContext.HomeSliderPhotos.Add(new HomeSliderPhotos { Photo=model.Photo,PhotoId= _photoid,Description=model.Description,PhotoTitle=model.PhotoTitle,PhotoAddDate=DateTime.Now });
+                _DbContext.SaveChanges();
+
+            }
+
+            return RedirectToAction("HomePagePhotos");
+        }
         public IActionResult Claims()
         {
             return View(User.Claims.ToList());

@@ -9,6 +9,7 @@ namespace MainProject.Models
         {
         }
         public DbSet<Settings> Settings { get; set; }
+        public DbSet<HomeSliderPhotos> HomeSliderPhotos { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

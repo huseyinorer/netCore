@@ -1,0 +1,35 @@
+﻿@model List<MainProject.Models.HomeSliderPhotos>
+@{
+    ViewData["Title"] = "Photos";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<h3>Resimler</h3>
+<hr />
+    <table class="table table-bordered table-striped table-responsive">
+        <tr>
+            <th>Id</th>
+            <th>Fotoğraf</th>
+            <th>Başlık</th>
+            <th>Açıklama</th>
+            <th>Eklenme T.</th>
+            <th>Silme</th>
+        </tr>   
+        @foreach (var item in Model)
+	{
+    <tr>
+        <td>@item.PhotoId</td>
+        <td><img  width="40" height="40" src= "@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(item.Photo))" /></td>
+        <td>@item.PhotoTitle</td>
+        <td>@item.Description</td>
+        <td>@item.PhotoAddDate</td>
+        <td>
+            <form asp-action="DeleteHomeSliderPhoto" asp-route-id="@item.PhotoId" method="post">
+                <button class="btn btn-warning" type="submit">Sil</button>
+            </form>
+        </td>
+    </tr>            
+	}
+        
+    </table>
+    <a asp-action="HomeSliderPhotoAdd" class="btn btn-outline-info float-sm-right">İlan Foto. Ekle</a>

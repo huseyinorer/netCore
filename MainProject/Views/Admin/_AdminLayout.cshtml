@@ -10,7 +10,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand"asp-action="Index" asp-controller="Home">Home</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -34,16 +34,17 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container-fluid pl-5">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 @RenderBody()
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h3>Menü</h3>
                 <a class="btn btn-danger btn-block" asp-action="Users" asp-controller="Admin">Kullanıcılar</a>
                 <a class="btn btn-danger btn-block" asp-action="Roles" asp-controller="Admin">Roller</a>
                 <a class="btn btn-danger btn-block" asp-action="Claims" asp-controller="Admin">Claims</a>
+                <a class="btn btn-danger btn-block" asp-action="HomePagePhotos" asp-controller="Admin">Anasayfa İlan Resimleri</a>
                 <a class="btn btn-warning btn-block" asp-action="Logout" asp-controller="Admis" asp-route-returnUrl="/Home/">Çıkış</a>
             </div>
 
