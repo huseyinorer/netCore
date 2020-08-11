@@ -23,7 +23,8 @@ namespace MainProject.Controllers
             if (User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Member");
 
-            return View();
+            var homepagePhotos = _DbContext.HomeSliderPhotos.ToList();
+            return View(homepagePhotos);
         }
 
         public IActionResult SignUp()

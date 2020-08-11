@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace MainProject.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
-        public AdminController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager,ProjectDbContext dbcontext) : base(userManager, null, roleManager,dbcontext)
+        public AdminController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager, ProjectDbContext dbcontext) : base(userManager, null, roleManager, dbcontext)
         {
         }
 
@@ -167,25 +167,42 @@ namespace MainProject.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> HomeSliderPhotoAdd(HomeSliderPhotoViewModel model,IFormFile Photo)
+        public async Task<IActionResult> HomeSliderPhotoAdd(HomeSliderPhotoViewModel model, IFormFile Photo)
         {
-            if(Photo.Length>0)
+            if (Photo.Length > 0)
             {
-                using (var stream=new MemoryStream())
+                using (var stream = new MemoryStream())
                 {
                     await Photo.CopyToAsync(stream);
                     model.Photo = stream.ToArray();
                 }
 
-                var _photoid = _DbContext.HomeSliderPhotos.Max(w=>w.PhotoId) + 1;
-                _DbContext.HomeSliderPhotos.Add(new HomeSliderPhotos { Photo=model.Photo,PhotoId= _photoid,Description=model.Description,PhotoTitle=model.PhotoTitle,PhotoAddDate=DateTime.Now });
+                var _photoid = _DbContext.HomeSliderPhotos.Max(w => w.PhotoId) + 1;
+                _DbContext.HomeSliderPhotos.Add(new HomeSliderPhotos { Photo = model.Photo, PhotoId = _photoid, Description = model.Description, PhotoTitle = model.PhotoTitle, PhotoAddDate = DateTime.Now });
                 _DbContext.SaveChanges();
-
             }
 
             return RedirectToAction("HomePagePhotos");
         }
+
+        [HttpPost]
+        public IActionResult DeleteHomeSliderPhoto(string id)
+        {
+            if(!string.IsNullOrEmpty(id))
+            {
+                var _id = Convert.ToInt32(id);
+                var ExitingPhoto =  _DbContext.HomeSliderPhotos.Where(w => w.PhotoId == _id).FirstOrDefault();
+
+               _DbContext.HomeSliderPhotos.Remove(ExitingPhoto);
+               _DbContext.SaveChanges();
+
+
+            }
+            return RedirectToAction("HomePagePhotos");
+        }
+
         public IActionResult Claims()
         {
             return View(User.Claims.ToList());

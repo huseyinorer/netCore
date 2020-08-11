@@ -1,38 +1,40 @@
-﻿
+﻿@model List<MainProject.Models.HomeSliderPhotos>
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Anasayfa</h1>
+<style>
+    #carouselExampleCaptions:hover .carousel-control-prev, #carouselExampleCaptions:hover .carousel-control-next, #carouselExampleCaptions:hover .carousel-caption {
+        background-color: black;
+        opacity: 0.6;
+    }
+    .carousel-control-prev, .carousel-control-next {
+        top: 50%;
+        height: 50px;
+        width:70px;
+        border-radius:5px;
+    }
+</style>
 <div class="bd-example d-flex justify-content-center">
-    <div id="carouselExampleCaptions" class="carousel slide w-50"  data-ride="carousel">
+    <div id="carouselExampleCaptions" class="carousel slide w-75"  data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+            @foreach (var item in Model)
+            {
+                <li data-target="#carouselExampleCaptions" data-slide-to="@Model.IndexOf(item)" class="@(item==Model.First()?"active":"")"></li>
+            }
+
         </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://static.toiimg.com/thumb/72975551.cms?width=680&height=512&imgsize=881753" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        <div class="carousel-inner" >
+            @foreach (var item in Model)
+            {
+                <div style=" width:100%; height: 500px !important;" class="carousel-item @(item==Model.First()?"active":"")">
+                    <img src="@String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(item.Photo))" class="img-fluid rounded mx-auto d-block" style=" height: 100%;" alt="SliderPhoto_@item.PhotoId">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>@item.PhotoTitle</h5>
+                        <p>@item.Description</p>
+                    </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://static.toiimg.com/thumb/72975551.cms?width=680&height=512&imgsize=881753" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://static.toiimg.com/thumb/72975551.cms?width=680&height=512&imgsize=881753" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                </div>
-            </div>
+            }
+            
         </div>
         <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -7,6 +7,7 @@
     <script src="~/lib/jquery/jquery.js"></script>
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/css/Sidebar.css" rel="stylesheet" />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -34,19 +35,20 @@
         </div>
     </nav>
 
-    <div class="container-fluid pl-5">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-2 px-1 pt-4">
+                <div class="sidebar">
+                    <a class="btn btn-dark btn-block mt-2" asp-action="Users" asp-controller="Admin">Kullanıcılar</a>
+                    <a class="btn btn-dark btn-block" asp-action="Roles" asp-controller="Admin">Roller</a>
+                    <a class="btn btn-dark btn-block" asp-action="Claims" asp-controller="Admin">Claims</a>
+                    <a class="btn btn-dark btn-block" asp-action="HomePagePhotos" asp-controller="Admin">Anasayfa İlan Resimleri</a>
+                    <a class="btn btn-warning btn-block my-2" asp-action="Logout" asp-controller="Admin" asp-route-returnUrl="/Home/">Çıkış</a>
+                </div>
+            </div>
+            <div class="col-md-10">
                 @RenderBody()
-            </div>
-            <div class="col-md-3">
-                <h3>Menü</h3>
-                <a class="btn btn-danger btn-block" asp-action="Users" asp-controller="Admin">Kullanıcılar</a>
-                <a class="btn btn-danger btn-block" asp-action="Roles" asp-controller="Admin">Roller</a>
-                <a class="btn btn-danger btn-block" asp-action="Claims" asp-controller="Admin">Claims</a>
-                <a class="btn btn-danger btn-block" asp-action="HomePagePhotos" asp-controller="Admin">Anasayfa İlan Resimleri</a>
-                <a class="btn btn-warning btn-block" asp-action="Logout" asp-controller="Admis" asp-route-returnUrl="/Home/">Çıkış</a>
-            </div>
+            </div>           
 
         </div>
         
