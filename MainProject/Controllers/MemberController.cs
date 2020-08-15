@@ -1,5 +1,6 @@
 ﻿using MainProject.Enums;
 using MainProject.Identity;
+using MainProject.Models;
 using MainProject.ViewModels;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ namespace MainProject.Controllers
     [Authorize]
     public class MemberController : BaseController
     {
-        public MemberController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager) : base(userManager, signInManager)
+        public MemberController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager,ProjectDbContext dbContext) : base(userManager, signInManager,null,dbContext)
         {
         }
 
@@ -27,6 +28,13 @@ namespace MainProject.Controllers
             RegisterUserViewModel userViewModel = user.Adapt<RegisterUserViewModel>();
 
             return View(userViewModel);
+        }
+
+        public IActionResult Home()
+        {          
+
+            var homepagePhotos = _DbContext.HomeSliderPhotos.ToList();
+            return View(homepagePhotos);
         }
 
         public IActionResult ChangePassword()

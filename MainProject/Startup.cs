@@ -43,6 +43,9 @@ namespace MainProject
                     policy.AddRequirements(new ExpireDateExchangeRequirement());
                 });
 
+                opts.AddPolicy("IsAdmin",
+             policy => policy.RequireRole("Admin"));
+
             });
 
             services.AddEntityFrameworkNpgsql().AddDbContext<AppIdentityDbContext>(options => options.UseNpgsql(_configuration["DbConnection"]));//ders:62

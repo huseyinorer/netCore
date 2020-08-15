@@ -7,9 +7,10 @@
     <script src="~/lib/jquery/jquery.js"></script>
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" asp-action="Index" asp-controller="Home">Home</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +21,22 @@
                     <li class="nav-link ">
                         <a class="nav-link" asp-action="Home">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    </ul>
+                </ul>
+                <div class="d-flex flex-grow-1">
+                    <form class="mr-2 my-auto w-75 d-inline-block">
+                        <div class="input-group">
+                            <input type="text" class="form-control border border-right-0" placeholder="Ara...">
+                            <span class="input-group-append">
+                                <button class="btn btn-light border border-left-0" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <button class="navbar-toggler order-0" type="button" data-toggle="collapse" data-target="#navbar7">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <ul class="navbar-nav">
                     <li class="nav-link">
                         <a class="nav-item nav-link" asp-action="SignUp">Üye Ol</a>
@@ -30,10 +46,11 @@
                     </li>
                 </ul>
             </div>
+
         </div>
     </nav>
 
-    <div class="container-fluid pl-5">
+    <div class="container-fluid pl-5" style="padding-top:70px">
         @RenderBody()
     </div>
 </body>

@@ -120,7 +120,7 @@ namespace MainProject.Controllers
 
                     if (TempData["ReturnUrl"] != null)
                         return Redirect(TempData["ReturnUrl"].ToString());
-                    return RedirectToAction("Index", "Member");
+                    return RedirectToAction("Home", "Member");
                 }
                 else
                 {
