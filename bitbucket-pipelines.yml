@@ -7,8 +7,8 @@ pipelines:
           script:
             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - IMAGE=huseyinorer/netcore
-            - 'docker build -f MainProject/Dockerfile -t ${IMAGE}:latest .'
-            - 'docker push "${IMAGE}:latest"'
+            - docker build -f MainProject/Dockerfile -t ${IMAGE}:latest .
+            - docker push "${IMAGE}:latest"
           services:
             - docker
       - step:
