@@ -1,11 +1,9 @@
 definitions:
   steps:
     - step:
-        image: 'huseyinorer/netcore:latest'
-        script: &ref_0
-          - >-
-            docker login --username $DOCKER_HUB_USERNAME --password
-            $DOCKER_HUB_PASSWORD
+        image: huseyinorer/netcore:latest
+        script:
+          - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
           - docker-compose -f docker-compose.yml pull
           - docker-compose -f docker-compose.yml up -d
 pipelines:
@@ -24,7 +22,6 @@ pipelines:
           services:
             - docker
       - step:
-          image: 'huseyinorer/netcore:latest'
-          script: *ref_0
-          name: deploy vmserver
-          deployment: vmserver test
+          <<: *deploy
+          name: deploy
+          deployment: deploy
