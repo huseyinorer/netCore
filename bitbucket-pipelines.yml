@@ -1,18 +1,26 @@
-# This is a sample build configuration for .NET Core.
-# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
-image: mcr.microsoft.com/dotnet/core/sdk:3.1
-
-pipelines:
-  default:
-    - step:
-        caches:
-          - dotnetcore
-        deployment: test
-        script: # Modify the comma`nds below to build your repository.
-          - export PROJECT_NAME=MainProject         
-          - dotnet restore
-          - dotnet build $MainProject
-          
+definitions:
+    steps:
+        - step: &deploy
+          image: huseyinorer/netcore:latest
+          script:
+            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            - docker-compose -f docker-compose.yml pull
+            - docker-compose -f docker-compose.yml up -d
+pipelines:  
+  branches:
+    master:
+      - step:
+          name: Build and Push Docker Hub
+          deployment: Production
+          script:
+            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+            - IMAGE=huseyinorer/netcore
+            - docker build -f MainProject/Dockerfile -t ${IMAGE}:latest .
+            - docker push "${IMAGE}:latest"
+          services:
+            - docker
+      - step:
+          <<: *deploy
+          name: deploy vmserver
+          deployment: vmserver test
+      
