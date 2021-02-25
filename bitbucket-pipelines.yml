@@ -1,11 +1,3 @@
-definitions:
-  steps:
-    - step:
-        image: huseyinorer/netcore:latest
-        script:
-          - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
-          - docker-compose -f docker-compose.yml pull
-          - docker-compose -f docker-compose.yml up -d
 pipelines:
   branches:
     master:
@@ -22,6 +14,12 @@ pipelines:
           services:
             - docker
       - step:
-          <<: *deploy
-          name: deploy
-          deployment: deploy
+            image: huseyinorer/netcore:latest
+            script:
+             - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+             - docker-compose -f docker-compose.yml pull
+             - docker-compose -f docker-compose.yml up -d
+            name: deploy
+            deployment: deploy
+         
+
