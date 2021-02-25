@@ -1,18 +1,19 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
-WORKDIR /MainProject
+WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0.102-ca-patch-buster-slim AS build
-WORKDIR /MainProject
-
+WORKDIR /app
+COPY *.sln .
 COPY MainProject/*.csproj ./MainProject/
+COPY MainProject/. ./MainProject/
 
 FROM build AS publish
-WORKDIR "/MainProject"
-RUN dotnet publish -c Release -o /publish
+WORKDIR "/app/MainProject"
+RUN dotnet publish -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /MainProject
-COPY --from=publish /MainProject/publish .
+COPY --from=publish /app/publish .
 
 ENV ASPNETCORE_URLS http://+:5000
 EXPOSE 5000
