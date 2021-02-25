@@ -8,11 +8,11 @@ COPY MainProject/*.csproj ./MainProject/
 
 FROM build AS publish
 WORKDIR "/netcore/MainProject"
-RUN dotnet publish -c Release -o /netcore/publish /p:EnvironmentName=Production /p:CI=true
+RUN dotnet publish -c Release -o /netcore/MainProject/publish
 
 FROM base AS final
 WORKDIR /netcore
-COPY --from=publish /netcore/publish .
+COPY --from=publish /netcore/MainProject/publish .
 
 ENV ASPNETCORE_URLS http://+:5000
 EXPOSE 5000
