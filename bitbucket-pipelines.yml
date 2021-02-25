@@ -5,9 +5,7 @@ pipelines:
           name: Build and Push Docker Hub
           deployment: Production
           script:
-            - >-
-              echo ${DOCKERHUB_PASSWORD} | docker login --username
-              "$DOCKERHUB_USERNAME" --password-stdin
+            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             - IMAGE=huseyinorer/netcore
             - 'docker build -f MainProject/Dockerfile -t ${IMAGE}:latest .'
             - 'docker push "${IMAGE}:latest"'
