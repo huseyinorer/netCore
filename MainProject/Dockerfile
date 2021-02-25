@@ -15,8 +15,6 @@ FROM base AS final
 WORKDIR /MainProject
 COPY --from=publish /app/publish .
 
-ENV ASPNETCORE_URLS http://+:5000
-EXPOSE 5000
 
 ENTRYPOINT ["dotnet", "MainProject.dll"]
 
