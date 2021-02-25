@@ -19,7 +19,5 @@ pipelines:
              - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
              - docker-compose -f docker-compose.yml pull
              - docker-compose -f docker-compose.yml up -d
-            name: deploy
-            deployment: deploy
          
 
