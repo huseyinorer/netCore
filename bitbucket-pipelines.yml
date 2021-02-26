@@ -4,7 +4,6 @@ definitions:
         image: huseyinorer/docker-compose:latest
         script:
           - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
-          - docker-compose pull kestrel
           - docker-compose build nginx
           - docker-compose up -d
 pipelines:
