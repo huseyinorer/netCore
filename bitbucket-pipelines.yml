@@ -14,7 +14,6 @@ pipelines:
       - step:
             name: docker-compose
             script:
-             - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
              - docker-compose -f docker-compose.yml pull
              - docker-compose -f docker-compose.yml up -d
          
