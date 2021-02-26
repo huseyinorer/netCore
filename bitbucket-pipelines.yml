@@ -1,7 +1,7 @@
 definitions: 
   steps:
     - step: &deploy
-        image: huseyinorer/docker-compose:latest
+        image: huseyinorer/docker-compose:ver2
         script:
           - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
           - docker-compose -f docker-compose.yml pull
