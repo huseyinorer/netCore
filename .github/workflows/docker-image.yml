@@ -1,15 +1,14 @@
 definitions: 
 	steps:
-		- step: &deploy
-				image: huseyinorer/docker-compose:ver2
-				script:
+	 - step: &deploy
+		image: huseyinorer/docker-compose:ver2
+		script:
           - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
           - docker-compose -f docker-compose.yml pull
-          - docker-compose -f docker-compose.yml up -d					
-          
+          - docker-compose -f docker-compose.yml up -d
 pipelines:
-	branches:
-		master:
+  branches:
+    master:
       - step:
           name: Build and Push Docker Hub
           deployment: Production
@@ -23,5 +22,7 @@ pipelines:
           services:
             - docker
       - step:
-					<<: *deploy
-					name: Deploy to ubuntu
+          <<: *deploy
+          name: Deploy to ubuntu
+         
+
