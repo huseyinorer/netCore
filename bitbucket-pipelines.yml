@@ -1,10 +1,15 @@
 definitions: 
   steps:
     - step: &deploy
-        image: docker/compose
         script:
+          - export DOCKER_COMPOSE_VERSION=1.18.0
+          - export DOCKER_COMPOSE_URL=https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)
+          - curl -L $DOCKER_COMPOSE_URL > docker-compose
+          - chmod +x docker-compose
+          - mv docker-compose /usr/local/bin
           - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-          - docker-compose -f docker-compose.yml pull
+          - docker-compose pull kestrel
+          - docker-compose build nginx
           - docker-compose -f docker-compose.yml up -d
 pipelines:
   branches:
