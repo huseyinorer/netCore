@@ -1,21 +1,18 @@
 version: "3.7"
 
 services:
-    kestrel:
-        build:
-            context: ./
-            dockerfile: MainProject/Dockerfile
-        container_name: MainKestrel
-        expose:
-            - "5000"
-        restart: always
-        depends_on:
-            nginx:
-    
     nginx:
-        build: nginx:latest
-        container_name: MainNginx
+        build: ./nginx
+        links:
+           - kestrel:kestrel
         ports:
             - "80:80"
         restart: always
+        
+    kestrel:
+        build: .
+        ports:
+            - "5000"
+        restart: always
+    
       
