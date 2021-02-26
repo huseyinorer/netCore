@@ -1,0 +1,27 @@
+definitions: 
+	steps:
+		- step: &deploy
+				image: huseyinorer/docker-compose:ver2
+				script:
+          - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+          - docker-compose -f docker-compose.yml pull
+          - docker-compose -f docker-compose.yml up -d
+          
+pipelines:
+	branches:
+		master:
+      - step:
+          name: Build and Push Docker Hub
+          deployment: Production
+          script:
+            - echo ${DOCKERHUB_PASSWORD} | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+            - IMAGE=huseyinorer/netcore
+            - docker build -f nginx/Dockerfile -t huseyinorer/netcore-nginx:latest .
+            - docker push huseyinorer/netcore-nginx:latest
+            - docker build -f MainProject/Dockerfile -t ${IMAGE}:latest .
+            - docker push "${IMAGE}:latest"
+          services:
+            - docker
+      - step:
+					<<: *deploy
+					name: Deploy to ubuntu
