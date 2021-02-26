@@ -5,8 +5,7 @@ definitions:
 				script:
           - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
           - docker-compose -f docker-compose.yml pull
-          - docker-compose -f docker-compose.yml up -d
-					
+          - docker-compose -f docker-compose.yml up -d					
           
 pipelines:
 	branches:
