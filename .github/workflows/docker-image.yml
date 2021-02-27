@@ -14,4 +14,4 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         repository: huseyinorer/netcoregit
         tags: latest
-        path: MainProject/Dockerfile
+        path: ./MainProject/
