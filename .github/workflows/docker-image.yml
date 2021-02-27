@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:    
     - name: Build the Docker image
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2      
     - name: publish hub
-    - uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
