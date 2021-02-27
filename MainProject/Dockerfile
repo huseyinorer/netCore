@@ -1,18 +1,18 @@
 FROM mcr.microsoft.com/dotnet/aspnet:3.1-focal AS base
-#WORKDIR /app
+WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1-focal AS build
 #COPY ./*.sln .
 #WORKDIR /app
 COPY *.csproj ./MainProject/
-COPY MainProject/. ./MainProject/
+COPY . ./MainProject/
 
 FROM build AS publish
-WORKDIR "/app/MainProject"
+#WORKDIR "/app/MainProject"
 RUN dotnet publish -c Release -o /app/publish
 
 FROM base AS final
-WORKDIR /MainProject
+#WORKDIR /MainProject
 COPY --from=publish /app/publish .
 
 EXPOSE 5000/tcp
