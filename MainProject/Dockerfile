@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/aspnet:3.1-focal AS base
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:3.1-focal AS build
+FROM mcr.microsoft.com/dotnet//core/sdk:3.1 AS build
 WORKDIR /app
 COPY *.sln .
 COPY MainProject/*.csproj ./MainProject/
