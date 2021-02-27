@@ -4,7 +4,7 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:3.1-focal AS build
 #COPY ./*.sln .
 #WORKDIR /app
-COPY ./MainProject/*.csproj ./MainProject/
+COPY *.csproj ./MainProject/
 COPY MainProject/. ./MainProject/
 
 FROM build AS publish
