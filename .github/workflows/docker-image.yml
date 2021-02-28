@@ -19,5 +19,7 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         USERNAME: vmserver
+        HOST: ${{ secrets.HOST }}
+        password: ${{ secrets.PASSWORD }}
         KEY: ${{ secrets.SSHKEY }}
         script: docker pull huseyinorer/netcoregit
