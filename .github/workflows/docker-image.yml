@@ -15,3 +15,9 @@ jobs:
         repository: huseyinorer/netcoregit
         tags: latest
         dockerfile: ./MainProject/Dockerfile
+    - name: Executing remote  command
+      uses: appleboy/ssh-action@master
+      with:
+        USERNAME: vmserver
+        KEY: ${{ secrets.SSHKEY }}
+        script: docker pull huseyinorer/netcoregit
