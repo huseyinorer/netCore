@@ -21,4 +21,4 @@ jobs:
         username: vmserver
         host: ${{ secrets.HOST }}
         privatekey: ${{ secrets.SSHKEY }}
-        script: docker pull huseyinorer/netcoregit
+        command: docker pull huseyinorer/netcoregit
