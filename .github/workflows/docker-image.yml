@@ -16,9 +16,8 @@ jobs:
         tags: latest
         dockerfile: ./MainProject/Dockerfile
     - name: Executing remote  command
-      uses: garygrossgarten/github-action-ssh@release
+      uses: appleboy/ssh-action@master
       with:
-        username: vmserver
-        host: ${{ secrets.HOST }}
-        privatekey: ${{ secrets.SSHKEY }}
-        command: docker pull huseyinorer/netcoregit
+        USERNAME: vmserver
+        KEY: ${{ secrets.SSHKEY }}
+        script: docker pull huseyinorer/netcoregit
