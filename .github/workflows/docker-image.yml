@@ -20,6 +20,6 @@ jobs:
       with:
         USERNAME: vmserver
         host: ${{ secrets.HOST }}
-        key: ${{ secrets.KEY }}
+        key: ${{ secrets.SSHKEY }}
         port: ${{ secrets.PORT }}
         script: whoami
