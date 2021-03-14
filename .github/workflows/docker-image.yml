@@ -16,10 +16,8 @@ jobs:
         tags: latest
         dockerfile: ./MainProject/Dockerfile
     - name: Executing remote  command
-      uses: appleboy/ssh-action@master
+      uses: JimCronqvist/action-ssh@master
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSHKEY }}
-        port: ${{ secrets.PORT }}
-        script: whoami
+        hosts: 'vmserver@34.66.179.159'
+        privateKey: ${{ secrets.SSHKEY }}
+        command: ls -lah
