@@ -18,6 +18,9 @@ jobs:
     - name: Executing remote  command
       uses: appleboy/ssh-action@master
       with:
-        host: 'vmserver@34.66.179.159'
-        key: ${{ secrets.SSHKEY }}
-        script: ls -lah
+        hosts: 'vmserver@34.66.179.159'
+        privateKey: ${{ secrets.SSHKEY }}
+        command:  |
+           docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+           docker-compose -f docker-compose.yml pull
+           docker-compose -f docker-compose.yml up -d
