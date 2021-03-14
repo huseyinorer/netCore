@@ -20,6 +20,6 @@ jobs:
       with:
         USERNAME: vmserver
         host: ${{ secrets.HOST }}
-        password: ${{ secrets.PASSWORD }}
-        PORT: ${{ secrets.PORT }}
-        script: docker pull huseyinorer/netcoregit
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: whoami
