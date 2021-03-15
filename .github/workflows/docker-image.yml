@@ -12,7 +12,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        repository: huseyinorer/netcoregit
+        repository: huseyinorer/netcore
         tags: latest
         dockerfile: ./MainProject/Dockerfile
     - name: Executing remote  command
