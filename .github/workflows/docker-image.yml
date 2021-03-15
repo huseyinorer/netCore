@@ -20,4 +20,6 @@ jobs:
       with:
         hosts: 'vmserver@34.66.179.159'
         privateKey: ${{ secrets.SSHKEY }}
-        command:  docker-compose -f docker-compose.yml pull
+        command:  |
+         docker-compose -f docker-compose.yml pull
+         docker-compose -f docker-compose.yml up -d
