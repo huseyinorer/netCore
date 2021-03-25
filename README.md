@@ -5,9 +5,9 @@ Uygulama net core 3.1 (.net 5'e geçebilir.)
 
 CI/CD işlemleri
 Uygulama hem bitbucked hem github'da depolanmaktadır. Birinde pipeline diğerinde action ile Push'tan sonra aşağıdaki işlemleri yapmaktadır.
-1- Uygulama derlenir
-2- Paketler oluşturulup dockerhub'a gönderilir.
-3 - uzak sunucuya ssh üzerinden bağlanıp docker-compose up yapılır ve 80 portundan uygulama ayağa kalkar.
+- Uygulama derlenir
+- Paketler oluşturulup dockerhub'a gönderilir.
+- uzak sunucuya ssh üzerinden bağlanıp docker-compose up yapılır ve 80 portundan uygulama ayağa kalkar.
 
 Uzak sunucu
 - Ubuntu 20.04 lts
