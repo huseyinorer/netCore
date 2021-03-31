@@ -1,3 +1,6 @@
+
+[![Docker Image CI](https://github.com/huseyinorer/netCore/actions/workflows/docker-image.yml/badge.svg)](https://github.com/huseyinorer/netCore/actions/workflows/docker-image.yml)
+
 Uygulama kabaca kişisel yönetilebilir satış sayfası olacaktır. 
 Üyelik sistemi barındırmaktadır (google,facebook).
 Veritabanı olarak postgresql kullanmakta.
