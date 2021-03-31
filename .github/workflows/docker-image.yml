@@ -20,6 +20,6 @@ jobs:
       with:
         hosts: 'ubuntu@ec2-100-26-57-143.compute-1.amazonaws.com'
         privateKey: ${{ secrets.SSHKEY }}
-        command: |
+        command:  |
          docker-compose -f docker-compose.yml pull
          docker-compose -f docker-compose.yml up -d
