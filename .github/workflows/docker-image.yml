@@ -18,7 +18,7 @@ jobs:
     - name: Executing remote  command
       uses: JimCronqvist/action-ssh@master
       with:
-        hosts: 'ubuntu@100.26.57.143'
+        hosts: 'ubuntu@ec2-100-26-57-143.compute-1.amazonaws.com'
         privateKey: ${{ secrets.SSHKEY }}
         command: |
          docker-compose -f docker-compose.yml pull
