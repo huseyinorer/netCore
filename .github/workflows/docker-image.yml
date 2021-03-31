@@ -18,7 +18,7 @@ jobs:
     - name: Executing remote  command
       uses: JimCronqvist/action-ssh@master
       with:
-        hosts: 'vmserver@34.66.179.159'
+        hosts: 'ubuntu@100.26.57.143'
         privateKey: ${{ secrets.SSHKEY }}
         command:  |
          docker-compose -f docker-compose.yml pull
