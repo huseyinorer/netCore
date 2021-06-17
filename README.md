@@ -12,7 +12,7 @@ Uygulama hem bitbucked hem github'da depolanmaktadır. Birinde pipeline diğerin
 - Paketler oluşturulup dockerhub'a gönderilir.
 - uzak sunucuya ssh üzerinden bağlanıp docker-compose up yapılır ve 80 portundan uygulama ayağa kalkar.
 
-Uzak sunucu
+Uzak sunucu  
 - Ubuntu 20.04 lts
 - Uygulamamızı nginx arkasına koyuyoruz (bunu dockerfile ve nginx.configinde belirtmemiz gerekli)
 
