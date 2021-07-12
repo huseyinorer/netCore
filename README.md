@@ -4,7 +4,7 @@
 Uygulama kabaca kişisel yönetilebilir satış sayfası olacaktır. 
 Üyelik sistemi barındırmaktadır (google,facebook).
 Veritabanı olarak postgresql kullanmakta.
-Uygulama net core 3.1 (.net 5'e geçebilir.)
+Uygulama .net 5
 
 CI/CD işlemleri
 Uygulama hem bitbucked hem github'da depolanmaktadır. Birinde pipeline diğerinde action ile Push'tan sonra aşağıdaki işlemleri yapmaktadır.
@@ -14,5 +14,5 @@ Uygulama hem bitbucked hem github'da depolanmaktadır. Birinde pipeline diğerin
 
 Uzak sunucu  
 - Ubuntu 20.04 lts
-- Uygulamamızı nginx arkasına koyuyoruz (bunu dockerfile ve nginx.configinde belirtmemiz gerekli)
+- Uygulamamızı nginx arkasına koyuyoruz (bunu dockerfile ve nginx.configinde belirtmemiz gerekli)  
 
