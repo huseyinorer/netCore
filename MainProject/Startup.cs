@@ -65,6 +65,7 @@ namespace MainProject
             //        opts.ClientSecret = _configuration["Authentication:Google:ClientSecret"];
 
             //    });
+
             services.AddIdentity<AppIdentityUser, AppIdentityRole>()
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders()
