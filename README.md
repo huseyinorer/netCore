@@ -14,5 +14,5 @@ Uygulama hem bitbucked hem github'da depolanmaktadır. Birinde pipeline diğerin
 
 Uzak sunucu  
 - Ubuntu 20.04 lts
-- Uygulamamızı nginx arkasına koyuyoruz (bunu dockerfile ve nginx.configinde belirtmemiz gerekli)  
+- Uygulamamızı nginx arkasına koyuyoruz (bunu dockerfile ve nginx.configinde belirtmemiz gerekli)
 
