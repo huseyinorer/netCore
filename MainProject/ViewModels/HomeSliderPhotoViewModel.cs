@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MainProject.ViewModels
 {
@@ -11,8 +6,8 @@ namespace MainProject.ViewModels
     {
         [Required(ErrorMessage = "Bir foto. seçiniz.")]
         [Display(Name = "Eklenecek Foto")]
-        public byte[] Photo { get; set; }   
-        
+        public byte[] Photo { get; set; }
+
         [Required(ErrorMessage = "Fotoğrafa bir başlık giriniz.")]
         [Display(Name = "Başlık")]
         public string PhotoTitle { get; set; }

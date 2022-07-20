@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MainProject.Identity;
+﻿using MainProject.Identity;
 using MainProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +13,7 @@ namespace MainProject.Controllers
         protected ProjectDbContext _DbContext { get; set; }
 
         protected AppIdentityUser CurrentUser => _userManager.FindByNameAsync(User.Identity.Name).Result;
-        public BaseController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, RoleManager<AppIdentityRole> roleManager=null, ProjectDbContext DbContext=null)
+        public BaseController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, RoleManager<AppIdentityRole> roleManager = null, ProjectDbContext DbContext = null)
         {
             _userManager = userManager;
             _signInManager = signInManager;

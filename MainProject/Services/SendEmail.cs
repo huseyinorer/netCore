@@ -6,7 +6,7 @@ namespace MainProject.Helper
 {
     public static class SendEmail
     {
-        public static void SendCallBackURL(string Email, string URL,ProjectDbContext db)
+        public static void SendCallBackURL(string Email, string URL, ProjectDbContext db)
         {
             var settings = db.Settings.SingleOrDefault();
             var webSiteName = settings.WebSiteName;
@@ -14,7 +14,7 @@ namespace MainProject.Helper
             var networkCredentinal_Password = settings.Credentials_Password;
 
             MailMessage mail = new MailMessage();
-            
+
             mail.From = new MailAddress("unknownartistim@gmail.com");
 
             mail.To.Add(Email);

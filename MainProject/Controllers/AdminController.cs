@@ -190,13 +190,13 @@ namespace MainProject.Controllers
         [HttpPost]
         public IActionResult DeleteHomeSliderPhoto(string id)
         {
-            if(!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(id))
             {
                 var _id = Convert.ToInt32(id);
-                var ExitingPhoto =  _DbContext.HomeSliderPhotos.Where(w => w.PhotoId == _id).FirstOrDefault();
+                var ExitingPhoto = _DbContext.HomeSliderPhotos.Where(w => w.PhotoId == _id).FirstOrDefault();
 
-               _DbContext.HomeSliderPhotos.Remove(ExitingPhoto);
-               _DbContext.SaveChanges();
+                _DbContext.HomeSliderPhotos.Remove(ExitingPhoto);
+                _DbContext.SaveChanges();
 
 
             }

@@ -48,7 +48,7 @@ namespace MainProject.ClaimProvider
 
                 }
 
-                
+
             }
             return principal;
         }

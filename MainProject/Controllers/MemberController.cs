@@ -17,7 +17,7 @@ namespace MainProject.Controllers
     [Authorize]
     public class MemberController : BaseController
     {
-        public MemberController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager,ProjectDbContext dbContext) : base(userManager, signInManager,null,dbContext)
+        public MemberController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager, ProjectDbContext dbContext) : base(userManager, signInManager, null, dbContext)
         {
         }
 
@@ -31,7 +31,7 @@ namespace MainProject.Controllers
         }
 
         public IActionResult Home()
-        {          
+        {
 
             var homepagePhotos = _DbContext.HomeSliderPhotos.ToList();
             return View(homepagePhotos);
@@ -97,9 +97,9 @@ namespace MainProject.Controllers
             if (ModelState.IsValid)
             {
                 string phone = _userManager.GetPhoneNumberAsync(CurrentUser).Result;
-                if(phone!=registerUserViewModel.PhoneNumber)
+                if (phone != registerUserViewModel.PhoneNumber)
                 {
-                    if(_userManager.Users.Any(w=>w.PhoneNumber==registerUserViewModel.PhoneNumber))
+                    if (_userManager.Users.Any(w => w.PhoneNumber == registerUserViewModel.PhoneNumber))
                     {
                         ModelState.AddModelError("", "Bu telefon numarası başka üye tarafından kullanılmaktadır.");
                         return View(registerUserViewModel);

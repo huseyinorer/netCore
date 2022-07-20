@@ -10,7 +10,7 @@ namespace MainProject.ViewModels
         [Display(Name = "Kullanıcı Adı")]
         public string UserName { get; set; }
 
-        [RegularExpression(@"^(0(\d{3}) (\d{3}) (\d{2}) (\d{2}))$",ErrorMessage ="Telefon numarası uygun formatta değil")]
+        [RegularExpression(@"^(0(\d{3}) (\d{3}) (\d{2}) (\d{2}))$", ErrorMessage = "Telefon numarası uygun formatta değil")]
         [Display(Name = "Tel. No:")]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }

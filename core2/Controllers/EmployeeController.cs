@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using core2.Entities;
+﻿using core2.Entities;
 using core2.Model;
 using core2.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace core2.Controllers
 {
@@ -21,11 +18,11 @@ namespace core2.Controllers
 
         public IActionResult Add()
         {
-             
-        var employeeAddViewModel = new EmployeeAddViewModel
+
+            var employeeAddViewModel = new EmployeeAddViewModel
             {
                 Employee = new Employee(),
-                Cities=new List<SelectListItem>
+                Cities = new List<SelectListItem>
                 {
                    new SelectListItem{Text="Ankara",Value="6" },
                    new SelectListItem{Text="İstanbul",Value="34"}
@@ -39,7 +36,7 @@ namespace core2.Controllers
         public IActionResult Add(Employee employee)
         {
 
-        return View();
+            return View();
         }
         public string Calculate()
         {

@@ -40,9 +40,9 @@ namespace MainProject.Controllers
                 return View(registerViewModel);
             }
 
-            if(_userManager.Users.Any(w=>w.PhoneNumber==registerViewModel.PhoneNumber))
+            if (_userManager.Users.Any(w => w.PhoneNumber == registerViewModel.PhoneNumber))
             {
-                ModelState.AddModelError("","Bu telefon numarası kayıtlıdır");
+                ModelState.AddModelError("", "Bu telefon numarası kayıtlıdır");
                 return View(registerViewModel);
 
             }

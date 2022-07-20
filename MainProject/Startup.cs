@@ -129,12 +129,12 @@ namespace MainProject
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints=>
+            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=index}/{id?}"
-                    
+
                     );
             });//default route controller>action>view
 
